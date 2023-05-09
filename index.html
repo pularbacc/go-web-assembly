@@ -1,22 +1,19 @@
 <html>
-    <head>
-        <title>Hello World</title>
-    </head>
-    <body>
-        <h1>Hello World</h1>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="wasm_exec.js"></script>
+	</head>
+	<body>
+        <h1>Hello Go WebAssembly</h1>
+        <button onclick="runGo()">Run Go</button>
         <script>
-            console.log("running script")
-             function loadWasmModule(url) {
-                return fetch(url)
-                .then(response => response.arrayBuffer())
-                .then(buffer => WebAssembly.instantiate(buffer))
-                .then(({ instance }) => instance.exports);
+            const go = new Go();
+            function runGo(){
+                WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
+                    go.run(result.instance);
+                });
             }
-
-            loadWasmModule('gocode/main.wasm').then(module => {
-                const result = module.add(2, 3);
-                console.log(result); // Output: 5
-            });
+			
         </script>
     </body>
 </html>
