@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Hello World</title>
+    </head>
+    <body>
+        <h1>Hello World</h1>
+        <script>
+            console.log("running script")
+             function loadWasmModule(url) {
+                return fetch(url)
+                .then(response => response.arrayBuffer())
+                .then(buffer => WebAssembly.instantiate(buffer))
+                .then(({ instance }) => instance.exports);
+            }
+
+            loadWasmModule('gocode/main.wasm').then(module => {
+                const result = module.add(2, 3);
+                console.log(result); // Output: 5
+            });
+        </script>
+    </body>
+</html>

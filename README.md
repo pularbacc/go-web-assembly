@@ -1,1 +1,1 @@
-# workspaces
+# Learn Go WebAssembly
